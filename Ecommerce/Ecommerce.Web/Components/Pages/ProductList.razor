@@ -1,0 +1,31 @@
+﻿@page "/products"
+@inject HttpClient http
+<h3>ProductList</h3>
+
+<div class="row">
+    @foreach (var product in Products)
+    {
+        <div class="col-md-6">
+            <div class="card">
+                @* <img class="card-img-top" src=".../100px180/" alt="Card image cap"> *@
+                <div class="card-body">
+                    <h5 class="card-title">@product.Name</h5>
+                    <p class="card-text">Price: @product.Price</p>
+                    <p class="card-text">Quantity: @product.Quantity</p>
+                    <a href="#" class="btn btn-primary">Buy</a>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+@code {
+    private List<ProductModel> Products = new List<ProductModel>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        Products = await http.GetFromJsonAsync<List<ProductModel>>("https://localhost:7012/api/product");
+        await base.OnInitializedAsync();
+    }
+
+}

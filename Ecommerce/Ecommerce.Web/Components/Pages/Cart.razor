@@ -1,0 +1,18 @@
+﻿@page "/cart/{ProductId:int}"
+@inject HttpClient http
+<h3>Cart</h3>
+
+@code {
+    [Parameter]
+    public int ProductId { get; set; }
+    public OrderModel Order = new OrderModel();
+    public ProductModel Product = new ProductModel();
+
+    protected override async Task OnInitializedAsync()
+    {
+        Order.ProductId = ProductId;
+        Product = await http.GetFromJsonAsync<ProductModel>($"https://localhost:7012/api/product/{ProductId}");
+        await base.OnInitializedAsync();
+    }
+
+}
