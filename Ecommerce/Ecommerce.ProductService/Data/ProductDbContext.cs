@@ -13,8 +13,8 @@ public class ProductDbContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<ProductModel>().HasData(new ProductModel { Id = 1, Name = "Shirt", Quantity = 20, Price = 20});
-        modelBuilder.Entity<ProductModel>().HasData(new ProductModel { Id = 1, Name = "Pants", Quantity = 50, Price = 50});
-        modelBuilder.Entity<ProductModel>().HasData(new ProductModel { Id = 1, Name = "Polo", Quantity = 100, Price = 100});
+        modelBuilder.Entity<ProductModel>().HasData(new ProductModel { Id = 2, Name = "Pants", Quantity = 50, Price = 50});
+        modelBuilder.Entity<ProductModel>().HasData(new ProductModel { Id = 3, Name = "Polo", Quantity = 100, Price = 100});
         base.OnModelCreating(modelBuilder);
     }
 
