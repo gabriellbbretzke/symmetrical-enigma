@@ -1,0 +1,48 @@
+﻿@page "/cart/{ProductId:int}"
+@inject HttpClient http
+@inject IJSRuntime jsRuntime
+@rendermode InteractiveServer
+<h3>Cart</h3>
+
+<form>
+    <div class="form-group mb-4">
+        <label>Customer Name</label>
+        <input type="text" class="form-control" @bind="Order.CustomerName" />
+    </div>
+    <div class="form-group mb-4">
+        <label>Product Name</label>
+        <input type="text" class="form-control" @bind="Product.Name" />
+    </div>
+    <div class="form-group mb-4">
+        <label>Quantity</label>
+        <input type="text" class="form-control" @bind="Order.Quantity" />
+    </div>
+    <button type="button" class="btn btn-primary" @onclick="CreateOrder">Create Order</button>
+</form>
+
+@code {
+    [Parameter]
+    public int ProductId { get; set; }
+    public OrderModel Order = new OrderModel();
+    public ProductModel Product = new ProductModel();
+
+    protected override async Task OnInitializedAsync()
+    {
+        Order.ProductId = ProductId;
+        Product = await http.GetFromJsonAsync<ProductModel>($"https://localhost:7012/api/product/{ProductId}");
+        await base.OnInitializedAsync();
+    }
+
+    public async Task CreateOrder()
+    {
+        var res = await http.PostAsJsonAsync<OrderModel>("https://localhost:7233/api/order", Order);
+        if (res.IsSuccessStatusCode)
+        {
+            await jsRuntime.InvokeVoidAsync("alert", "Order created successfully.");
+        }
+        else
+        {
+            await jsRuntime.InvokeVoidAsync("alert", "Failed to create order.");
+        }
+    }
+}
