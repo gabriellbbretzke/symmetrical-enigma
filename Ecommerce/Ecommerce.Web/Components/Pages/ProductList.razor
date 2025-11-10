@@ -1,5 +1,7 @@
 ﻿@page "/products"
+@rendermode InteractiveServer
 @inject HttpClient http
+
 <h3>ProductList</h3>
 
 <div class="row">
@@ -12,7 +14,7 @@
                     <h5 class="card-title">@product.Name</h5>
                     <p class="card-text">Price: @product.Price</p>
                     <p class="card-text">Quantity: @product.Quantity</p>
-                    <a href="#" class="btn btn-primary">Buy</a>
+                    <NavLink class="btn btn-primary" href="@($"/cart/{product.Id}")">Buy</NavLink>
                 </div>
             </div>
         </div>
@@ -27,5 +29,4 @@
         Products = await http.GetFromJsonAsync<List<ProductModel>>("https://localhost:7012/api/product");
         await base.OnInitializedAsync();
     }
-
 }
